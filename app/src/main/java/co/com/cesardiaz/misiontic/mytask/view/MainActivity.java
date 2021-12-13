@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -75,15 +76,41 @@ public class MainActivity extends AppCompatActivity implements MainMVP.View {
         taskAdapter.updateTask(task);
     }
 
+
+
     @Override
     public void showConfirmDialog(String message, TaskItem task) {
+         CharSequence[] choices = {"Task Done", "Delete Task"};
          new AlertDialog.Builder(this)
                  .setIcon(android.R.drawable.ic_dialog_alert)
                  .setTitle("Task selected")
-                 .setMessage(message)
-                 .setPositiveButton("Yes", (dialog, which) -> presenter.updateTask(task))
-                 .setNegativeButton("No",null)
+                 //.setMessage(message)
+                 .setSingleChoiceItems(choices, 0,new DialogInterface.OnClickListener() {
+
+                     @Override
+                     public void onClick(DialogInterface dialogInterface, int i) {
+                         ListView lv = ((AlertDialog)dialogInterface).getListView();
+                         lv.setTag(new Integer(i));
+
+                     }
+                 })
+                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                     public void onClick(DialogInterface dialog, int which) {
+                         ListView lv = ((AlertDialog)dialog).getListView();
+                         Integer selected= (Integer)lv.getTag();
+                         if (selected != null) {
+                             presenter.deleteTask(task);
+
+                         } else if (selected == null) {
+
+                             presenter.updateTask(task);
+                         }
+                     }
+                 })
+
+                 .setNegativeButton("Cancelar",null)
                  .show();
+
     }
     @Override
     public void showConfirmDialog(String message) {
@@ -94,4 +121,14 @@ public class MainActivity extends AppCompatActivity implements MainMVP.View {
                 .setNegativeButton("Aceptar",null)
                 .show();
     }
+
+    @Override
+    public void deleteTask(TaskItem task) {
+        taskAdapter.removeTask(task);
+    }
 }
+
+
+
+
+

@@ -63,4 +63,11 @@ public class MainPresenter implements MainMVP.Presenter {
         view.updateTask(task);
 
     }
+
+    @Override
+    public void deleteTask(TaskItem task) {
+        model.deleteTask(task);
+        view.deleteTask(task);
+
+    }
 }

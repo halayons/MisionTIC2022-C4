@@ -47,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "All fields Required", Toast.LENGTH_SHORT).show();
                 else{
                     if (Patterns.EMAIL_ADDRESS.matcher(user).matches()) {
-                        Toast.makeText(LoginActivity.this, "Email Verified !", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(LoginActivity.this, "Email Verified !", Toast.LENGTH_SHORT).show();
                         Matcher matcher = Pattern.compile("((?=.*[a-zA-Z])(?=.*\\d)(?=.*[@#$%!]).{6,})").matcher(pass);
                         if(matcher.matches()) {
                             Boolean checkuserpass = DB.checkusernamepassword(user, pass);

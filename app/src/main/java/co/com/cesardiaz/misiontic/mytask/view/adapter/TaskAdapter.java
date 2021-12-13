@@ -83,6 +83,13 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         }
     }
 
+    public void removeTask(TaskItem task) {
+        int i = data.indexOf(task);
+        data.remove(i);
+        notifyItemChanged(i);
+        }
+
+
     protected class ViewHolder extends RecyclerView.ViewHolder {
         private final ImageView ivIcon;
         private final TextView tvDescription;
