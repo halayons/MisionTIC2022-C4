@@ -11,6 +11,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import co.com.cesardiaz.misiontic.mytask.view.MainActivity;
 
 public class LoginActivity extends AppCompatActivity {
@@ -45,20 +48,25 @@ public class LoginActivity extends AppCompatActivity {
                 else{
                     if (Patterns.EMAIL_ADDRESS.matcher(user).matches()) {
                         Toast.makeText(LoginActivity.this, "Email Verified !", Toast.LENGTH_SHORT).show();
-                        Boolean checkuserpass = DB.checkusernamepassword(user,pass);
-                        if(checkuserpass==false){
-                            Boolean insert = DB.insertData(user, pass);
-                            if(insert==true){
-                                Toast.makeText(LoginActivity.this, "Registered Successfully", Toast.LENGTH_SHORT).show();
+                        Matcher matcher = Pattern.compile("((?=.*[a-zA-Z])(?=.*\\d)(?=.*[@#$%!]).{6,})").matcher(pass);
+                        if(matcher.matches()) {
+                            Boolean checkuserpass = DB.checkusernamepassword(user, pass);
+                            if (checkuserpass == false) {
+                                Boolean insert = DB.insertData(user, pass);
+                                if (insert == true) {
+                                    Toast.makeText(LoginActivity.this, "Registered Successfully", Toast.LENGTH_SHORT).show();
+                                    intent = new Intent(getApplicationContext(), MainActivity.class);
+                                    startActivity(intent);
+                                } else {
+                                    Toast.makeText(LoginActivity.this, "Wrong password", Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                Toast.makeText(LoginActivity.this, "Login Successfully", Toast.LENGTH_SHORT).show();
                                 intent = new Intent(getApplicationContext(), MainActivity.class);
                                 startActivity(intent);
-                            }else{
-                                Toast.makeText(LoginActivity.this,"Wrong password", Toast.LENGTH_SHORT).show();
                             }
                         }else{
-                            Toast.makeText(LoginActivity.this,"Login Successfully", Toast.LENGTH_SHORT).show();
-                            intent = new Intent(getApplicationContext(), MainActivity.class);
-                            startActivity(intent);
+                            Toast.makeText(LoginActivity.this, "Valid password must be at least 6 alphanumeric characters and symbols!", Toast.LENGTH_SHORT).show();
                         }
                     } else {
                         Toast.makeText(LoginActivity.this, "Enter valid Email address !", Toast.LENGTH_SHORT).show();
