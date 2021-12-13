@@ -85,4 +85,13 @@ public class MainActivity extends AppCompatActivity implements MainMVP.View {
                  .setNegativeButton("No",null)
                  .show();
     }
+    @Override
+    public void showConfirmDialog(String message) {
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Task selected")
+                .setMessage(message)
+                .setNegativeButton("Aceptar",null)
+                .show();
+    }
 }

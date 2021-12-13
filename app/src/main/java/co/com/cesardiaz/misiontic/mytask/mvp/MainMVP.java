@@ -36,5 +36,7 @@ public interface MainMVP {
         void updateTask(TaskItem item);
 
         void showConfirmDialog(String message, TaskItem task);
+
+        void showConfirmDialog(String field_required);
     }
 }
